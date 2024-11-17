@@ -7,8 +7,8 @@
 				"language": "sql"
 			},
 			"currentConnection": {
-				"databaseName": "ds598sqlpool",
-				"poolName": "ds598sqlpool"
+				"databaseName": "master",
+				"poolName": "Built-in"
 			},
 			"resultLimit": 5000
 		},
