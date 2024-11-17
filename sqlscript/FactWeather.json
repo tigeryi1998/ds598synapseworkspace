@@ -2,7 +2,7 @@
 	"name": "FactWeather",
 	"properties": {
 		"content": {
-			"query": "-- Create FactWeather table with matching data types (internal sql table)\n\nCREATE TABLE FactWeather (\n    clouds_all SMALLINT\n);\nGO\n\n-- Insert data into FactWeather\n--wind columns might be null if you didnt ingest them, so remove them from the insert\n\nINSERT INTO FactWeather (\n    clouds_all\n) \nSELECT clouds_all\nFROM ExternalWeather;\nGO\n\n",
+			"query": "-- Create FactWeather table with matching data types (internal sql table)\n\nCREATE TABLE FactWeather (\n    clouds_all SMALLINT\n);\nGO\n\n-- Insert data into FactWeather\n--wind columns might be null if you didnt ingest them, so remove them from the insert\n\nINSERT INTO FactWeather (\n    clouds_all\n)\nSELECT clouds_all\nFROM ExternalWeather;\nGO\n\n",
 			"metadata": {
 				"language": "sql"
 			},
