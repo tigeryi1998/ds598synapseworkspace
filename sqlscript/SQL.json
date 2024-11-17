@@ -2,7 +2,7 @@
 	"name": "SQL",
 	"properties": {
 		"content": {
-			"query": "-- Create external data source\nCREATE EXTERNAL DATA SOURCE MyDataSource\nWITH (\nLOCATION = 'https://tigeryihw1storage.dfs.co\nre.windows.net/data'\n);\nGO\n\n-- Create external file format\nCREATE EXTERNAL FILE FORMAT ParquetFileFormat\nWITH (\nFORMAT_TYPE = PARQUET\n);\nGO\n\nCREATE EXTERNAL TABLE ExternalWeather(\n    --positionality matters!\n    clouds_all SMALLINT,\n)\nWITH (\n    LOCATION = 'gold/processed_weather/processed_weather.parquet',\n    DATA_SOURCE = MyDataSource,\n    FILE_FORMAT = ParquetFileFormat\n);\nGO\n\n",
+			"query": "-- Create external data source\nCREATE EXTERNAL DATA SOURCE MyDataSource\nWITH (\n    LOCATION = 'https://tigeryihw1storage.dfs.core.windows.net/data'\n);\nGO\n\n-- Create external file format\nCREATE EXTERNAL FILE FORMAT ParquetFileFormat\nWITH (\nFORMAT_TYPE = PARQUET\n);\nGO\n\nCREATE EXTERNAL TABLE ExternalWeather(\n    --positionality matters!\n    clouds_all SMALLINT,\n)\nWITH (\n    LOCATION = 'gold/processed_weather/processed_weather.parquet',\n    DATA_SOURCE = MyDataSource,\n    FILE_FORMAT = ParquetFileFormat\n);\nGO\n\n",
 			"metadata": {
 				"language": "sql"
 			},
