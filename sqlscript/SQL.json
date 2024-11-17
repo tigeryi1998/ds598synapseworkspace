@@ -2,7 +2,7 @@
 	"name": "SQL",
 	"properties": {
 		"content": {
-			"query": "-- Create external data source\nCREATE EXTERNAL DATA SOURCE MyDataSource\nWITH (\nLOCATION = 'https://tigeryihw1storage.dfs.co\nre.windows.net/data'\n);\nGO\n\n",
+			"query": "-- Create external data source\nCREATE EXTERNAL DATA SOURCE MyDataSource\nWITH (\nLOCATION = 'https://tigeryihw1storage.dfs.co\nre.windows.net/data'\n);\nGO\n\n-- Create external file format\nCREATE EXTERNAL FILE FORMAT ParquetFileFormat\nWITH (\nFORMAT_TYPE = PARQUET\n);\nGO\n\n",
 			"metadata": {
 				"language": "sql"
 			},
