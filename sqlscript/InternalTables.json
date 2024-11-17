@@ -1,0 +1,17 @@
+{
+	"name": "InternalTables",
+	"properties": {
+		"content": {
+			"query": "-- Create FactWeather table with matching data types (internal sql table)\n\nCREATE TABLE FactWeather (\n    id NVARCHAR(100),\n);\nGO",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "master",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
