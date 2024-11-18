@@ -467,6 +467,26 @@
 				"annotations": []
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/AggWeather')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "-- Create and load AggWeather table\n-- An aggregated table that summarizes weather data.\n-- Includes average temperature, humidity, and wind speed, \n--as well as maximum and minimum temperatures for each date.\n\nCREATE TABLE AggWeather (\n    date DATE,\n    avg_temp_F FLOAT,\n    avg_humidity FLOAT,\n    avg_wind_speed FLOAT,\n    max_temp_F FLOAT,\n    min_temp_F FLOAT,\n    weather_records INT\n);\nGO\n\nINSERT INTO AggWeather (\n    date,\n    avg_temp_F,\n    avg_humidity,\n    avg_wind_speed,\n    max_temp_F,\n    min_temp_F,\n    weather_records\n)\nSELECT\n    date,\n    avg_temp_F,\n    avg_humidity,\n    avg_wind_speed,\n    max_temp_F,\n    min_temp_F,\n    weather_records\nFROM \n    ExternalAggWeather;\nGO",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "ds598sqlpool",
+						"poolName": "ds598sqlpool"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
 		}
 	]
 }
