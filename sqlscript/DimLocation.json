@@ -2,7 +2,7 @@
 	"name": "DimLocation",
 	"properties": {
 		"content": {
-			"query": "",
+			"query": "-- Create and load DimLocation table\n\nCREATE TABLE DimLocation (\n    location NVARCHAR(100),\n    lat FLOAT,\n    lon FLOAT,\n    id NVARCHAR(100)\n);\nGO\n\nINSERT INTO DimLocation (\n    location,\n    lat,\n    lon,\n    id\n)\nSELECT\n    location,\n    lat,\n    lon,\n    id\nFROM \n    ExternalWeather;\nGO",
 			"metadata": {
 				"language": "sql"
 			},
