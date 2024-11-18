@@ -257,7 +257,67 @@
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
 				"content": {
-					"query": "-- Create external data source\n--CREATE EXTERNAL DATA SOURCE MyDataSource\n--WITH (\n--    LOCATION = 'https://tigeryihw1storage.dfs.core.windows.net/data'\n--);\n--GO\n\n-- Create external file format\n--CREATE EXTERNAL FILE FORMAT ParquetFileFormat\n--WITH (\n--FORMAT_TYPE = PARQUET\n--);\n--GO\n\n\n-- Create external table ExternalAggWeatherConditions\nCREATE EXTERNAL TABLE ExternalAggWeatherConditions (\n    date DATE,\n    weather_main_value VARCHAR(100),\ncount INT\n)\nWITH (\n    LOCATION = --location of your external agg weather co\n    DATA_SOURCE = ?,\n    FILE_FORMAT = ?\n);\nGO",
+					"query": "-- Create external data source\n--CREATE EXTERNAL DATA SOURCE MyDataSource\n--WITH (\n--    LOCATION = 'https://tigeryihw1storage.dfs.core.windows.net/data'\n--);\n--GO\n\n-- Create external file format\n--CREATE EXTERNAL FILE FORMAT ParquetFileFormat\n--WITH (\n--FORMAT_TYPE = PARQUET\n--);\n--GO\n\n-- Create external table ExternalAggWeatherConditions\nCREATE EXTERNAL TABLE ExternalAggWeatherConditions (\n    date DATE,\n    weather_main_value NVARCHAR(100),\n    count INT\n)\nWITH (\n    LOCATION = 'gold/agg_weather_conditions/parquet/weather_conditions.parquet',\n    DATA_SOURCE = MyDataSource,\n    FILE_FORMAT = ParquetFileFormat\n);\nGO",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "ds598sqlpool",
+						"poolName": "ds598sqlpool"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/ExternalAggTempExtremes')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "-- Create external data source\n--CREATE EXTERNAL DATA SOURCE MyDataSource\n--WITH (\n--    LOCATION = 'https://tigeryihw1storage.dfs.core.windows.net/data'\n--);\n--GO\n\n-- Create external file format\n--CREATE EXTERNAL FILE FORMAT ParquetFileFormat\n--WITH (\n--FORMAT_TYPE = PARQUET\n--);\n--GO\n\n-- Create external table ExternalAggTempExtremes\nCREATE EXTERNAL TABLE ExternalAggTempExtremes (\n    date DATE,\n    max_temp_F FLOAT,\n    min_temp_F FLOAT\n)\nWITH (\n    LOCATION = 'gold/agg_temp_extremes/parquet/temp_extremes.parquet',\n    DATA_SOURCE = MyDataSource,\n    FILE_FORMAT = ParquetFileFormat\n);\nGO",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "ds598sqlpool",
+						"poolName": "ds598sqlpool"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/ExternalAggAQI')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "-- Create external data source\n--CREATE EXTERNAL DATA SOURCE MyDataSource\n--WITH (\n--    LOCATION = 'https://tigeryihw1storage.dfs.core.windows.net/data'\n--);\n--GO\n\n-- Create external file format\n--CREATE EXTERNAL FILE FORMAT ParquetFileFormat\n--WITH (\n--FORMAT_TYPE = PARQUET\n--);\n--GO\n\n-- Create external table ExternalAggAQI\nCREATE EXTERNAL TABLE ExternalAggAQI (\n    date DATE,\n    avg_us_aqi FLOAT\n)\nWITH (\n    LOCATION = 'gold/agg_aqi/parquet/aqi_agg.parquet',\n    DATA_SOURCE = MyDataSource,\n    FILE_FORMAT = ParquetFileFormat\n);\nGO",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "ds598sqlpool",
+						"poolName": "ds598sqlpool"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/ExternalHighPollutionEvents')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "-- Create external data source\n--CREATE EXTERNAL DATA SOURCE MyDataSource\n--WITH (\n--    LOCATION = 'https://tigeryihw1storage.dfs.core.windows.net/data'\n--);\n--GO\n\n-- Create external file format\n--CREATE EXTERNAL FILE FORMAT ParquetFileFormat\n--WITH (\n--FORMAT_TYPE = PARQUET\n--);\n--GO\n\n-- Create external table ExternalHighPollutionEvents\nCREATE EXTERNAL TABLE ExternalHighPollutionEvents (\n    date DATE,\n    high_pollution_events INT\n)\nWITH (\n    LOCATION = 'gold/agg_high_pollution_events/parquet/high_pollution_events.parquet',\n    DATA_SOURCE = MyDataSource,\n    FILE_FORMAT = ParquetFileFormat\n);\nGO",
 					"metadata": {
 						"language": "sql"
 					},
