@@ -2,7 +2,7 @@
 	"name": "ExternalAggWeatherConditions",
 	"properties": {
 		"content": {
-			"query": "",
+			"query": "CREATE EXTERNAL TABLE ExternalAggWeatherConditions (\n    date DATE,\n    weather_main_value VARCHAR(100),\ncount INT\n)\nWITH (\n    LOCATION = --location of your external agg weather co\n    DATA_SOURCE = ?,\n    FILE_FORMAT = ?\n);\nGO",
 			"metadata": {
 				"language": "sql"
 			},
