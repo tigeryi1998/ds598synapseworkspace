@@ -2,7 +2,7 @@
 	"name": "DimAirPollution",
 	"properties": {
 		"content": {
-			"query": "-- Create and load DimAirPollution table\n\nCREATE TABLE DimAirPollution (\n    id NVARCHAR(100),\n    aqi NVARCHAR(100),\n    co FLOAT,\n    no FLOAT,\n    no2 FLOAT,\n    o3 FLOAT,\n    so2 FLOAT,\n    pm2_5 FLOAT,\n    pm10 FLOAT,\n    nh3 FLOAT\n);\nGO",
+			"query": "-- Create and load DimAirPollution table\n\nCREATE TABLE DimAirPollution (\n    id NVARCHAR(100),\n    aqi NVARCHAR(100),\n    co FLOAT,\n    no FLOAT,\n    no2 FLOAT,\n    o3 FLOAT,\n    so2 FLOAT,\n    pm2_5 FLOAT,\n    pm10 FLOAT,\n    nh3 FLOAT\n);\nGO\n\n",
 			"metadata": {
 				"language": "sql"
 			},
