@@ -2,7 +2,7 @@
 	"name": "DimDateTime",
 	"properties": {
 		"content": {
-			"query": "",
+			"query": "-- Create and load DimDateTime table\nCREATE TABLE DimDateTime (\n-- A dimension table that breaks down date and time components.\n-- Contains detailed temporal information such as year, month, day, hour, minute, \n--and whether the date is a weekend.\n    date_time DATETIME\n);\nGO\n\n",
 			"metadata": {
 				"language": "sql"
 			},
