@@ -2,7 +2,7 @@
 	"name": "AggAQI",
 	"properties": {
 		"content": {
-			"query": "-- Create and load AggAQI table\n-- An aggregated table for Air Quality Index (AQI) data.\n-- Contains average AQI values for each date.\n\nCREATE TABLE AggAQI (\n    a\n);\nGO\n\nINSERT INTO AggAQI (\n    date,\n    high_pollution_events\n)\nSELECT\n    date,\n    high_pollution_events\nFROM \n    ExternalAggAQI;\nGO",
+			"query": "-- Create and load AggAQI table\n-- An aggregated table for Air Quality Index (AQI) data.\n-- Contains average AQI values for each date.\n\nCREATE TABLE AggAQI (\n    date DATE,\n    avg_us_aqi FLOAT\n);\nGO\n\nINSERT INTO AggAQI (\n    date,\n    high_pollution_events\n)\nSELECT\n    date,\n    high_pollution_events\nFROM \n    ExternalAggAQI;\nGO",
 			"metadata": {
 				"language": "sql"
 			},
