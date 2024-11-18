@@ -2,7 +2,7 @@
 	"name": "ExternalHighPollutionEvents",
 	"properties": {
 		"content": {
-			"query": "-- Create external data source\n--CREATE EXTERNAL DATA SOURCE MyDataSource\n--WITH (\n--    LOCATION = 'https://tigeryihw1storage.dfs.core.windows.net/data'\n--);\n--GO\n\n-- Create external file format\n--CREATE EXTERNAL FILE FORMAT ParquetFileFormat\n--WITH (\n--FORMAT_TYPE = PARQUET\n--);\n--GO\n\n-- Create external table ExternalHighPollutionEvents\nCREATE EXTERNAL TABLE ExternalHighPollutionEvents (\n    date DATE,\n    avg_us_aqi FLOAT\n)\nWITH (\n    LOCATION = 'gold/agg_high_pollution_events/parquet/high_pollution_events.parquet',\n    DATA_SOURCE = MyDataSource,\n    FILE_FORMAT = ParquetFileFormat\n);\nGO",
+			"query": "-- Create external data source\n--CREATE EXTERNAL DATA SOURCE MyDataSource\n--WITH (\n--    LOCATION = 'https://tigeryihw1storage.dfs.core.windows.net/data'\n--);\n--GO\n\n-- Create external file format\n--CREATE EXTERNAL FILE FORMAT ParquetFileFormat\n--WITH (\n--FORMAT_TYPE = PARQUET\n--);\n--GO\n\n-- Create external table ExternalHighPollutionEvents\nCREATE EXTERNAL TABLE ExternalHighPollutionEvents (\n    date DATE,\n    high_pollution_events INT\n)\nWITH (\n    LOCATION = 'gold/agg_high_pollution_events/parquet/high_pollution_events.parquet',\n    DATA_SOURCE = MyDataSource,\n    FILE_FORMAT = ParquetFileFormat\n);\nGO",
 			"metadata": {
 				"language": "sql"
 			},
