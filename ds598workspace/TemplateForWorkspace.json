@@ -527,6 +527,26 @@
 				"type": "SqlQuery"
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/AggAQI')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "-- Create and load AggAQI table\n-- An aggregated table for Air Quality Index (AQI) data.\n-- Contains average AQI values for each date.\n\nCREATE TABLE AggAQI (\n    date DATE,\n    avg_us_aqi FLOAT\n);\nGO\n\nINSERT INTO AggAQI (\n    date,\n    avg_us_aqi\n)\nSELECT\n    date,\n    avg_us_aqi\nFROM \n    ExternalAggAQI;\nGO",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "ds598sqlpool",
+						"poolName": "ds598sqlpool"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
 		}
 	]
 }
