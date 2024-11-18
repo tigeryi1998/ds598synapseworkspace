@@ -1,0 +1,17 @@
+{
+	"name": "DimWeatherCondition",
+	"properties": {
+		"content": {
+			"query": "-- Create and load DimWeatherCondition table\n-- A dimension table for weather condition details.\n-- Stores information about different weather conditions, \n--including main weather categories and descriptions, \n--along with a combined weather condition value.\n\nCREATE TABLE DimWeatherCondition (\n    weather_id_value VARCHAR(100),\n    weather_icon_value VARCHAR(10),\n    weather_main_value VARCHAR(100),\n    weather_description_value VARCHAR(100),\n    weather_combined_value VARCHAR(110)\n);\nGO\n\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "ds598sqlpool",
+				"poolName": "ds598sqlpool"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
