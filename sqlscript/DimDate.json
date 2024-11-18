@@ -2,7 +2,7 @@
 	"name": "DimDate",
 	"properties": {
 		"content": {
-			"query": "-- Create and load DimDate table\n-- A dimension table focused on date attributes.\n-- Provides date details like year, month, day, quarter,\n-- and week, along with names for days and months, and a weekend indicator.\n\nCREATE TABLE DimDate (\n    date DATE,\n    year INT,\n    month INT,\n    day INT,\n    quarter INT,\n    week INT,\n    day_of_week INT,\n    day_name VARCHAR(10),\n    month_name VARCHAR(10),\n    is_weekend BIT\n);\nGO\n\n-- Populate DimDate Table from ExternalWeather\n\nINSERT INTO DimDate (\n    a\n)\nSELECT DISTINCT\n\nFROM\n    ExternalWeather;\nGO",
+			"query": "-- Create and load DimDate table\n-- A dimension table focused on date attributes.\n-- Provides date details like year, month, day, quarter,\n-- and week, along with names for days and months, and a weekend indicator.\n\nCREATE TABLE DimDate (\n    date DATE,\n    year INT,\n    month INT,\n    day INT,\n    quarter INT,\n    week INT,\n    day_of_week INT,\n    day_name VARCHAR(10),\n    month_name VARCHAR(10),\n    is_weekend BIT\n);\nGO\n\n-- Populate DimDate Table from ExternalWeather\n\nINSERT INTO DimDate (\n    date, year, month, day,\n    quarter, week, day_of_week, \n    day_name, month_name, is_weekend\n)\nSELECT DISTINCT\n\nFROM\n    ExternalWeather;\nGO",
 			"metadata": {
 				"language": "sql"
 			},
