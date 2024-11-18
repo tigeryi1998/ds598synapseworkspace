@@ -1,0 +1,17 @@
+{
+	"name": "ExternalAggWeatherConditions",
+	"properties": {
+		"content": {
+			"query": "",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "ds598sqlpool",
+				"poolName": "ds598sqlpool"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
