@@ -210,6 +210,46 @@
 				"type": "SqlQuery"
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/ExternalAirPollution')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "-- Create external data source\nCREATE EXTERNAL DATA SOURCE MyDataSource\nWITH (\n    LOCATION = 'https://tigeryihw1storage.dfs.core.windows.net/data'\n);\nGO\n\n-- Create external file format\nCREATE EXTERNAL FILE FORMAT ParquetFileFormat\nWITH (\nFORMAT_TYPE = PARQUET\n);\nGO\n\n-- Create external table ExternalAirPollution\nCREATE EXTERNAL TABLE ExternalAirPollution (\n    lat FLOAT, -- Latitude\n    lon FLOAT, -- Longitude\n    aqi INT, -- Air Quality Inde\n    co FLOAT, -- Carbon monoxide\n    no FLOAT, -- Nitric oxide lev\n    no2 FLOAT, -- Nitrogen dioxide\n    o3 FLOAT, -- Ozone level\n    so2 FLOAT, -- Sulfur dioxide \n    pm2_5 FLOAT, -- Particulate mat\n    pm10 FLOAT, -- Particulate mat\n    nh3 FLOAT, -- Ammonia level\n    corrected_timestamp INT, -- Corrected times\n    location NVARCHAR(100), -- Location as a s\n    date_time DATETIME2, -- Date and time wi\n    id NVARCHAR(100), -- String identifie\n    o3_8hr FLOAT, -- Ozone level (8-\n    o3_1hr FLOAT, -- Ozone level (1-\n    pm2_5_24hr FLOAT, -- PM2.5 level (24\n    pm10_24hr FLOAT, -- PM10 level (24-\n    co_8hr FLOAT, -- CO level (8-hou\n    so2_1hr FLOAT, -- SO2 level (1-ho\n    so2_24hr FLOAT, -- SO2 level (24-ho\n    no2_1hr FLOAT, -- NO2 level (1-ho\n    us_aqi INT -- U.S. Air Quality\n)\nWITH (\n    LOCATION = 'gold/processed_air_pollution/parquet/pollution.parquet',\n    DATA_SOURCE = MyDataSource,\n    FILE_FORMAT = ParquetFileFormat\n);\nGO",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "ds598sqlpool",
+						"poolName": "ds598sqlpool"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/DimAirPollution')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "-- Create and load DimAirPollution table\n\nCREATE TABLE DimAirPollution (\n    id NVARCHAR(100),\n    aqi NVARCHAR(100),\n    co FLOAT,\n    no FLOAT,\n    no2 FLOAT,\n    o3 FLOAT,\n    so2 FLOAT,\n    pm2_5 FLOAT,\n    pm10 FLOAT,\n    nh3 FLOAT\n);\nGO\n\nINSERT INTO DimAirPollution (\n    id, \n    aqi, \n    co, \n    no, \n    no2, \n    o3, \n    so2,\n    pm2_5,\n    pm10,\n    nh3\n)\nSELECT DISTINCT\n    id,\n    aqi,\n    co,\n    no,\n    no2,\n    o3,\n    so2,\n    pm2_5,\n    pm10,\n    nh3\nFROM\n    ExternalAirPollution;\nGO",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "ds598sqlpool",
+						"poolName": "ds598sqlpool"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
 		}
 	]
 }
