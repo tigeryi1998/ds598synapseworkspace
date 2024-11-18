@@ -2,7 +2,7 @@
 	"name": "AggPollutants",
 	"properties": {
 		"content": {
-			"query": "",
+			"query": "-- Create and load AggPollutants table\n-- An aggregated table for air pollutant data.\n-- Stores average concentrations of various pollutants\n-- (CO, NO2, O3, etc.) by date.\n\nCREATE TABLE AggPollutants (\n    date DATE,\n    avg_co FLOAT,\n    avg_no2 FLOAT,\n    avg_o3 FLOAT,\n    avg_so2 FLOAT,\n    avg_pm2_5 FLOAT,\n    avg_pm10 FLOAT\n);\nGO\n\nINSERT INTO AggPollutants (\n    date,\n    avg_co,\n    avg_no2,\n    avg_o3,\n    avg_so2,\n    avg_pm2_5,\n    avg_pm10\n)\nSELECT\n    date,\n    avg_co,\n    avg_no2,\n    avg_o3,\n    avg_so2,\n    avg_pm2_5,\n    avg_pm10\nFROM \n    ExternalAggPollutants;\nGO",
 			"metadata": {
 				"language": "sql"
 			},
