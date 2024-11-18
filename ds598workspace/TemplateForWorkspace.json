@@ -494,7 +494,7 @@
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
 				"content": {
-					"query": "-- Create and load HighPollutionEvents table\n-- A table tracking high pollution events.\n-- Contains the count of high pollution occurrences for each date.\n-- REFER TO THE SCHEMA IN DATABRICKS\n\nCREATE TABLE HighPollutionEvents (\n    date DATE,\n    high_pollution_events INT\n);\nGO\n\nINSERT INTO HighPollutionEvents (\n    date,\n    high_pollution_events\n)\nSELECT \n    date,\n    high_pollution_events\nFROM \n    ExternalHighPollutionEvents;\nGO",
+					"query": "-- Create and load HighPollutionEvents table\n-- A table tracking high pollution events.\n-- Contains the count of high pollution occurrences for each date.\n-- REFER TO THE SCHEMA IN DATABRICKS\n\nCREATE TABLE HighPollutionEvents (\n    date DATE,\n    high_pollution_events INT\n);\nGO\n\nINSERT INTO HighPollutionEvents (\n    date,\n    high_pollution_events\n)\nSELECT\n    date,\n    high_pollution_events\nFROM \n    ExternalHighPollutionEvents;\nGO",
 					"metadata": {
 						"language": "sql"
 					},
