@@ -547,6 +547,26 @@
 				"type": "SqlQuery"
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/DimLocation')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "-- Create and load DimLocation table\n\nCREATE TABLE DimLocation (\n    location NVARCHAR(100),\n    lat FLOAT,\n    lon FLOAT\n);\nGO\n\nINSERT INTO DimLocation (\n    location,\n    lat,\n    lon\n)\nSELECT DISTINCT\n    location,\n    lat,\n    lon\nFROM \n    ExternalWeather;\nGO",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "ds598sqlpool",
+						"poolName": "ds598sqlpool"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
 		}
 	]
 }
