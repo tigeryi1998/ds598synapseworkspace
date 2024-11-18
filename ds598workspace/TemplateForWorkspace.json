@@ -120,118 +120,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/ExternalWeather')]",
-			"type": "Microsoft.Synapse/workspaces/sqlscripts",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"content": {
-					"query": "-- Create external data source\nCREATE EXTERNAL DATA SOURCE MyDataSource\nWITH (\n    LOCATION = 'https://tigeryihw1storage.dfs.core.windows.net/data'\n);\nGO\n\n-- Create external file format\nCREATE EXTERNAL FILE FORMAT ParquetFileFormat\nWITH (\nFORMAT_TYPE = PARQUET\n);\nGO\n\n-- Create external table ExternalWeather\nCREATE EXTERNAL TABLE ExternalWeather(\n    clouds_all SMALLINT,\n    humidity SMALLINT,\n    pressure SMALLINT,\n    temp_K FLOAT,\n    temp_min_K FLOAT,\n    temp_max_K FLOAT,\n    feels_like_K FLOAT,\n    wind_deg SMALLINT,\n    wind_gust FLOAT,\n    wind_speed FLOAT,\n    rain_1h REAL,\n    corrected_timestamp INT,\n    location NVARCHAR(100),\n    date_time DATETIME,\n    id NVARCHAR(100),\n    temp_C FLOAT,\n    temp_min_C FLOAT,\n    temp_max_C FLOAT,\n    feels_like_C FLOAT,\n    temp_F FLOAT,\n    temp_min_F FLOAT,\n    temp_max_F FLOAT,\n    feels_like_F FLOAT,\n    lat FLOAT,\n    lon FLOAT,\n    weather_id_value INT,\n    weather_main_value NVARCHAR(100),\n    weather_description_value NVARCHAR(100),\n    weather_icon_value NVARCHAR(100)\n)\nWITH (\n    LOCATION = 'gold/processed_weather/parquet/weather.parquet',\n    DATA_SOURCE = MyDataSource,\n    FILE_FORMAT = ParquetFileFormat\n);\nGO\n\n\n\n\n",
-					"metadata": {
-						"language": "sql"
-					},
-					"currentConnection": {
-						"databaseName": "ds598sqlpool",
-						"poolName": "ds598sqlpool"
-					},
-					"resultLimit": 5000
-				},
-				"type": "SqlQuery"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/ds598sqlpool')]",
-			"type": "Microsoft.Synapse/workspaces/sqlPools",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"collation": "SQL_Latin1_General_CP1_CI_AS",
-				"maxSizeBytes": 263882790666240,
-				"annotations": []
-			},
-			"dependsOn": [],
-			"location": "eastus2"
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/DropTables')]",
-			"type": "Microsoft.Synapse/workspaces/sqlscripts",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"content": {
-					"query": "-- Drop external tables\nDROP EXTERNAL TABLE ExternalAggAQI;\nDROP EXTERNAL TABLE ExternalAggPollutants;\nDROP EXTERNAL TABLE ExternalAggTempExtremes;\nDROP EXTERNAL TABLE ExternalAggWeather;\nDROP EXTERNAL TABLE ExternalAggWeatherConditions;\nDROP EXTERNAL TABLE ExternalAirPollution;\nDROP EXTERNAL TABLE ExternalHighPollutionEvents;\nDROP EXTERNAL TABLE ExternalWeather;\nGO\n\n-- Drop regular tables\nDROP TABLE AggAQI;\nDROP TABLE AggPollutants;\nDROP TABLE AggTempExtremes;\nDROP TABLE AggWeather;\nDROP TABLE AggWeatherConditions;\nDROP TABLE DimDateTime;\nDROP TABLE DimLocation;\nDROP TABLE DimAirPollution;\nDROP TABLE DimWeatherCondition;\nDROP TABLE FactWeather;\nDROP TABLE HighPollutionEvents;\nDROP TABLE DimDate;\nGO",
-					"metadata": {
-						"language": "sql"
-					},
-					"currentConnection": {
-						"databaseName": "ds598sqlpool",
-						"poolName": "ds598sqlpool"
-					},
-					"resultLimit": 5000
-				},
-				"type": "SqlQuery"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/ValidateTables')]",
-			"type": "Microsoft.Synapse/workspaces/sqlscripts",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"content": {
-					"query": "SELECT TOP 10 * FROM FactWeather;\n--SELECT TOP 10 * FROM DimLocation;\n--SELECT TOP 10 * FROM DimAirPollution;\n--SELECT TOP 10 * FROM DimWeatherCondition;\n--SELECT TOP 10 * FROM DimDateTime;\n--SELECT TOP 10 * FROM DimDate;\n--SELECT TOP 10 * FROM AggWeather;\n--SELECT TOP 10 * FROM AggWeatherConditions;\n--SELECT TOP 10 * FROM AggTempExtremes;\n--SELECT TOP 10 * FROM AggAQI;\n--SELECT TOP 10 * FROM AggPollutants;\n--SELECT TOP 10 * FROM HighPollutionEvents;\n",
-					"metadata": {
-						"language": "sql"
-					},
-					"currentConnection": {
-						"databaseName": "ds598sqlpool",
-						"poolName": "ds598sqlpool"
-					},
-					"resultLimit": 5000
-				},
-				"type": "SqlQuery"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/FactWeather')]",
-			"type": "Microsoft.Synapse/workspaces/sqlscripts",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"content": {
-					"query": "-- Create FactWeather table with matching data types (internal sql table)\n\nCREATE TABLE FactWeather (\n    id NVARCHAR(100),\n    date_time DATETIME2,\n    date DATE,\n    location NVARCHAR(100),\n    humidity SMALLINT,\n    pressure SMALLINT,\n    clouds_all SMALLINT,\n    wind_deg SMALLINT,\n    wind_gust FLOAT,\n    wind_speed FLOAT,\n    temp_K FLOAT,\n    feels_like_K FLOAT,\n    temp_max_K FLOAT,\n    temp_min_K FLOAT,\n    temp_C FLOAT,\n    feels_like_C FLOAT,\n    temp_max_C FLOAT,\n    temp_min_C FLOAT,\n    temp_F FLOAT,\n    feels_like_F FLOAT,\n    temp_max_F FLOAT,\n    temp_min_F FLOAT,\n    weather_combined_value NVARCHAR(200)\n);\nGO\n\n-- Insert data into FactWeather\n--wind columns might be null if you didnt ingest them, so remove them from the insert\n\nINSERT INTO FactWeather (\n    id, date_time, date, location,\n    humidity, pressure, clouds_all, temp_K, feels_like_K, temp_max_K, temp_min_K, temp_C, feels_like_C, temp_max_C,\n    temp_min_C, temp_F, feels_like_F, temp_max_F, temp_min_F, weather_combined_value\n)\nSELECT\n    id,\n    date_time,\n    CAST(date_time AS DATE) AS date,\n    location,\n    humidity,\n    pressure,\n    clouds_all,\n    temp_K,\n    feels_like_K,\n    temp_max_K,\n    temp_min_K,\n    temp_C,\n    feels_like_C,\n    temp_max_C,\n    temp_min_C,\n    temp_F,\n    feels_like_F,\n    temp_max_F,\n    temp_min_F,\n    CONCAT(weather_id_value, '_', weather_icon_value) AS weather_combined_value\nFROM \n    ExternalWeather;\nGO\n\n",
-					"metadata": {
-						"language": "sql"
-					},
-					"currentConnection": {
-						"databaseName": "ds598sqlpool",
-						"poolName": "ds598sqlpool"
-					},
-					"resultLimit": 5000
-				},
-				"type": "SqlQuery"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/ExternalAirPollution')]",
-			"type": "Microsoft.Synapse/workspaces/sqlscripts",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"content": {
-					"query": "-- Create external data source\n--CREATE EXTERNAL DATA SOURCE MyDataSource\n--WITH (\n--    LOCATION = 'https://tigeryihw1storage.dfs.core.windows.net/data'\n--);\n--GO\n\n-- Create external file format\n--CREATE EXTERNAL FILE FORMAT ParquetFileFormat\n--WITH (\n--FORMAT_TYPE = PARQUET\n--);\n--GO\n\n-- Create external table ExternalAirPollution\nCREATE EXTERNAL TABLE ExternalAirPollution (\n    lat FLOAT, -- Latitude\n    lon FLOAT, -- Longitude\n    aqi INT, -- Air Quality Inde\n    co FLOAT, -- Carbon monoxide\n    no FLOAT, -- Nitric oxide lev\n    no2 FLOAT, -- Nitrogen dioxide\n    o3 FLOAT, -- Ozone level\n    so2 FLOAT, -- Sulfur dioxide \n    pm2_5 FLOAT, -- Particulate mat\n    pm10 FLOAT, -- Particulate mat\n    nh3 FLOAT, -- Ammonia level\n    corrected_timestamp INT, -- Corrected times\n    location NVARCHAR(100), -- Location as a s\n    date_time DATETIME2, -- Date and time wi\n    id NVARCHAR(100), -- String identifie\n    o3_8hr FLOAT, -- Ozone level (8-\n    o3_1hr FLOAT, -- Ozone level (1-\n    pm2_5_24hr FLOAT, -- PM2.5 level (24\n    pm10_24hr FLOAT, -- PM10 level (24-\n    co_8hr FLOAT, -- CO level (8-hou\n    so2_1hr FLOAT, -- SO2 level (1-ho\n    so2_24hr FLOAT, -- SO2 level (24-ho\n    no2_1hr FLOAT, -- NO2 level (1-ho\n    us_aqi INT -- U.S. Air Quality\n)\nWITH (\n    LOCATION = 'gold/processed_air_pollution/parquet/pollution.parquet',\n    DATA_SOURCE = MyDataSource,\n    FILE_FORMAT = ParquetFileFormat\n);\nGO",
-					"metadata": {
-						"language": "sql"
-					},
-					"currentConnection": {
-						"databaseName": "ds598sqlpool",
-						"poolName": "ds598sqlpool"
-					},
-					"resultLimit": 5000
-				},
-				"type": "SqlQuery"
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('workspaceName'), '/DimAirPollution')]",
 			"type": "Microsoft.Synapse/workspaces/sqlscripts",
 			"apiVersion": "2019-06-01-preview",
@@ -252,32 +140,12 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/ExternalAggWeatherConditions')]",
+			"name": "[concat(parameters('workspaceName'), '/DropTables')]",
 			"type": "Microsoft.Synapse/workspaces/sqlscripts",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
 				"content": {
-					"query": "-- Create external data source\n--CREATE EXTERNAL DATA SOURCE MyDataSource\n--WITH (\n--    LOCATION = 'https://tigeryihw1storage.dfs.core.windows.net/data'\n--);\n--GO\n\n-- Create external file format\n--CREATE EXTERNAL FILE FORMAT ParquetFileFormat\n--WITH (\n--FORMAT_TYPE = PARQUET\n--);\n--GO\n\n-- Create external table ExternalAggWeatherConditions\nCREATE EXTERNAL TABLE ExternalAggWeatherConditions (\n    date DATE,\n    weather_main_value NVARCHAR(100),\n    count INT\n)\nWITH (\n    LOCATION = 'gold/agg_weather_conditions/parquet/weather_conditions.parquet',\n    DATA_SOURCE = MyDataSource,\n    FILE_FORMAT = ParquetFileFormat\n);\nGO",
-					"metadata": {
-						"language": "sql"
-					},
-					"currentConnection": {
-						"databaseName": "ds598sqlpool",
-						"poolName": "ds598sqlpool"
-					},
-					"resultLimit": 5000
-				},
-				"type": "SqlQuery"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/ExternalAggTempExtremes')]",
-			"type": "Microsoft.Synapse/workspaces/sqlscripts",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"content": {
-					"query": "-- Create external data source\n--CREATE EXTERNAL DATA SOURCE MyDataSource\n--WITH (\n--    LOCATION = 'https://tigeryihw1storage.dfs.core.windows.net/data'\n--);\n--GO\n\n-- Create external file format\n--CREATE EXTERNAL FILE FORMAT ParquetFileFormat\n--WITH (\n--FORMAT_TYPE = PARQUET\n--);\n--GO\n\n-- Create external table ExternalAggTempExtremes\nCREATE EXTERNAL TABLE ExternalAggTempExtremes (\n    date DATE,\n    max_temp_F FLOAT,\n    min_temp_F FLOAT\n)\nWITH (\n    LOCATION = 'gold/agg_temp_extremes/parquet/temp_extremes.parquet',\n    DATA_SOURCE = MyDataSource,\n    FILE_FORMAT = ParquetFileFormat\n);\nGO",
+					"query": "-- Drop external tables\nDROP EXTERNAL TABLE ExternalAggAQI;\nDROP EXTERNAL TABLE ExternalAggPollutants;\nDROP EXTERNAL TABLE ExternalAggTempExtremes;\nDROP EXTERNAL TABLE ExternalAggWeather;\nDROP EXTERNAL TABLE ExternalAggWeatherConditions;\nDROP EXTERNAL TABLE ExternalAirPollution;\nDROP EXTERNAL TABLE ExternalHighPollutionEvents;\nDROP EXTERNAL TABLE ExternalWeather;\nGO\n\n-- Drop regular tables\nDROP TABLE AggAQI;\nDROP TABLE AggPollutants;\nDROP TABLE AggTempExtremes;\nDROP TABLE AggWeather;\nDROP TABLE AggWeatherConditions;\nDROP TABLE DimDateTime;\nDROP TABLE DimLocation;\nDROP TABLE DimAirPollution;\nDROP TABLE DimWeatherCondition;\nDROP TABLE FactWeather;\nDROP TABLE HighPollutionEvents;\nDROP TABLE DimDate;\nGO",
 					"metadata": {
 						"language": "sql"
 					},
@@ -312,12 +180,164 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/ExternalAggTempExtremes')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "-- Create external data source\n--CREATE EXTERNAL DATA SOURCE MyDataSource\n--WITH (\n--    LOCATION = 'https://tigeryihw1storage.dfs.core.windows.net/data'\n--);\n--GO\n\n-- Create external file format\n--CREATE EXTERNAL FILE FORMAT ParquetFileFormat\n--WITH (\n--FORMAT_TYPE = PARQUET\n--);\n--GO\n\n-- Create external table ExternalAggTempExtremes\nCREATE EXTERNAL TABLE ExternalAggTempExtremes (\n    date DATE,\n    max_temp_F FLOAT,\n    min_temp_F FLOAT\n)\nWITH (\n    LOCATION = 'gold/agg_temp_extremes/parquet/temp_extremes.parquet',\n    DATA_SOURCE = MyDataSource,\n    FILE_FORMAT = ParquetFileFormat\n);\nGO",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "ds598sqlpool",
+						"poolName": "ds598sqlpool"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/ExternalAggWeatherConditions')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "-- Create external data source\n--CREATE EXTERNAL DATA SOURCE MyDataSource\n--WITH (\n--    LOCATION = 'https://tigeryihw1storage.dfs.core.windows.net/data'\n--);\n--GO\n\n-- Create external file format\n--CREATE EXTERNAL FILE FORMAT ParquetFileFormat\n--WITH (\n--FORMAT_TYPE = PARQUET\n--);\n--GO\n\n-- Create external table ExternalAggWeatherConditions\nCREATE EXTERNAL TABLE ExternalAggWeatherConditions (\n    date DATE,\n    weather_main_value NVARCHAR(100),\n    count INT\n)\nWITH (\n    LOCATION = 'gold/agg_weather_conditions/parquet/weather_conditions.parquet',\n    DATA_SOURCE = MyDataSource,\n    FILE_FORMAT = ParquetFileFormat\n);\nGO",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "ds598sqlpool",
+						"poolName": "ds598sqlpool"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/ExternalAirPollution')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "-- Create external data source\n--CREATE EXTERNAL DATA SOURCE MyDataSource\n--WITH (\n--    LOCATION = 'https://tigeryihw1storage.dfs.core.windows.net/data'\n--);\n--GO\n\n-- Create external file format\n--CREATE EXTERNAL FILE FORMAT ParquetFileFormat\n--WITH (\n--FORMAT_TYPE = PARQUET\n--);\n--GO\n\n-- Create external table ExternalAirPollution\nCREATE EXTERNAL TABLE ExternalAirPollution (\n    lat FLOAT, -- Latitude\n    lon FLOAT, -- Longitude\n    aqi INT, -- Air Quality Inde\n    co FLOAT, -- Carbon monoxide\n    no FLOAT, -- Nitric oxide lev\n    no2 FLOAT, -- Nitrogen dioxide\n    o3 FLOAT, -- Ozone level\n    so2 FLOAT, -- Sulfur dioxide \n    pm2_5 FLOAT, -- Particulate mat\n    pm10 FLOAT, -- Particulate mat\n    nh3 FLOAT, -- Ammonia level\n    corrected_timestamp INT, -- Corrected times\n    location NVARCHAR(100), -- Location as a s\n    date_time DATETIME2, -- Date and time wi\n    id NVARCHAR(100), -- String identifie\n    o3_8hr FLOAT, -- Ozone level (8-\n    o3_1hr FLOAT, -- Ozone level (1-\n    pm2_5_24hr FLOAT, -- PM2.5 level (24\n    pm10_24hr FLOAT, -- PM10 level (24-\n    co_8hr FLOAT, -- CO level (8-hou\n    so2_1hr FLOAT, -- SO2 level (1-ho\n    so2_24hr FLOAT, -- SO2 level (24-ho\n    no2_1hr FLOAT, -- NO2 level (1-ho\n    us_aqi INT -- U.S. Air Quality\n)\nWITH (\n    LOCATION = 'gold/processed_air_pollution/parquet/pollution.parquet',\n    DATA_SOURCE = MyDataSource,\n    FILE_FORMAT = ParquetFileFormat\n);\nGO",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "ds598sqlpool",
+						"poolName": "ds598sqlpool"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/ExternalHighPollutionEvents')]",
 			"type": "Microsoft.Synapse/workspaces/sqlscripts",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
 				"content": {
 					"query": "-- Create external data source\n--CREATE EXTERNAL DATA SOURCE MyDataSource\n--WITH (\n--    LOCATION = 'https://tigeryihw1storage.dfs.core.windows.net/data'\n--);\n--GO\n\n-- Create external file format\n--CREATE EXTERNAL FILE FORMAT ParquetFileFormat\n--WITH (\n--FORMAT_TYPE = PARQUET\n--);\n--GO\n\n-- Create external table ExternalHighPollutionEvents\nCREATE EXTERNAL TABLE ExternalHighPollutionEvents (\n    date DATE,\n    high_pollution_events INT\n)\nWITH (\n    LOCATION = 'gold/agg_high_pollution_events/parquet/high_pollution_events.parquet',\n    DATA_SOURCE = MyDataSource,\n    FILE_FORMAT = ParquetFileFormat\n);\nGO",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "ds598sqlpool",
+						"poolName": "ds598sqlpool"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/ExternalWeather')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "-- Create external data source\nCREATE EXTERNAL DATA SOURCE MyDataSource\nWITH (\n    LOCATION = 'https://tigeryihw1storage.dfs.core.windows.net/data'\n);\nGO\n\n-- Create external file format\nCREATE EXTERNAL FILE FORMAT ParquetFileFormat\nWITH (\nFORMAT_TYPE = PARQUET\n);\nGO\n\n-- Create external table ExternalWeather\nCREATE EXTERNAL TABLE ExternalWeather(\n    clouds_all SMALLINT,\n    humidity SMALLINT,\n    pressure SMALLINT,\n    temp_K FLOAT,\n    temp_min_K FLOAT,\n    temp_max_K FLOAT,\n    feels_like_K FLOAT,\n    wind_deg SMALLINT,\n    wind_gust FLOAT,\n    wind_speed FLOAT,\n    rain_1h REAL,\n    corrected_timestamp INT,\n    location NVARCHAR(100),\n    date_time DATETIME,\n    id NVARCHAR(100),\n    temp_C FLOAT,\n    temp_min_C FLOAT,\n    temp_max_C FLOAT,\n    feels_like_C FLOAT,\n    temp_F FLOAT,\n    temp_min_F FLOAT,\n    temp_max_F FLOAT,\n    feels_like_F FLOAT,\n    lat FLOAT,\n    lon FLOAT,\n    weather_id_value INT,\n    weather_main_value NVARCHAR(100),\n    weather_description_value NVARCHAR(100),\n    weather_icon_value NVARCHAR(100)\n)\nWITH (\n    LOCATION = 'gold/processed_weather/parquet/weather.parquet',\n    DATA_SOURCE = MyDataSource,\n    FILE_FORMAT = ParquetFileFormat\n);\nGO\n\n\n\n\n",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "ds598sqlpool",
+						"poolName": "ds598sqlpool"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/FactWeather')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "-- Create FactWeather table with matching data types (internal sql table)\n\nCREATE TABLE FactWeather (\n    id NVARCHAR(100),\n    date_time DATETIME2,\n    date DATE,\n    location NVARCHAR(100),\n    humidity SMALLINT,\n    pressure SMALLINT,\n    clouds_all SMALLINT,\n    wind_deg SMALLINT,\n    wind_gust FLOAT,\n    wind_speed FLOAT,\n    temp_K FLOAT,\n    feels_like_K FLOAT,\n    temp_max_K FLOAT,\n    temp_min_K FLOAT,\n    temp_C FLOAT,\n    feels_like_C FLOAT,\n    temp_max_C FLOAT,\n    temp_min_C FLOAT,\n    temp_F FLOAT,\n    feels_like_F FLOAT,\n    temp_max_F FLOAT,\n    temp_min_F FLOAT,\n    weather_combined_value NVARCHAR(200)\n);\nGO\n\n-- Insert data into FactWeather\n--wind columns might be null if you didnt ingest them, so remove them from the insert\n\nINSERT INTO FactWeather (\n    id, date_time, date, location,\n    humidity, pressure, clouds_all, temp_K, feels_like_K, temp_max_K, temp_min_K, temp_C, feels_like_C, temp_max_C,\n    temp_min_C, temp_F, feels_like_F, temp_max_F, temp_min_F, weather_combined_value\n)\nSELECT\n    id,\n    date_time,\n    CAST(date_time AS DATE) AS date,\n    location,\n    humidity,\n    pressure,\n    clouds_all,\n    temp_K,\n    feels_like_K,\n    temp_max_K,\n    temp_min_K,\n    temp_C,\n    feels_like_C,\n    temp_max_C,\n    temp_min_C,\n    temp_F,\n    feels_like_F,\n    temp_max_F,\n    temp_min_F,\n    CONCAT(weather_id_value, '_', weather_icon_value) AS weather_combined_value\nFROM \n    ExternalWeather;\nGO\n\n",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "ds598sqlpool",
+						"poolName": "ds598sqlpool"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/ValidateTables')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "SELECT TOP 10 * FROM FactWeather;\n--SELECT TOP 10 * FROM DimLocation;\n--SELECT TOP 10 * FROM DimAirPollution;\n--SELECT TOP 10 * FROM DimWeatherCondition;\n--SELECT TOP 10 * FROM DimDateTime;\n--SELECT TOP 10 * FROM DimDate;\n--SELECT TOP 10 * FROM AggWeather;\n--SELECT TOP 10 * FROM AggWeatherConditions;\n--SELECT TOP 10 * FROM AggTempExtremes;\n--SELECT TOP 10 * FROM AggAQI;\n--SELECT TOP 10 * FROM AggPollutants;\n--SELECT TOP 10 * FROM HighPollutionEvents;\n",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "ds598sqlpool",
+						"poolName": "ds598sqlpool"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/ds598sqlpool')]",
+			"type": "Microsoft.Synapse/workspaces/sqlPools",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"collation": "SQL_Latin1_General_CP1_CI_AS",
+				"maxSizeBytes": 263882790666240,
+				"annotations": []
+			},
+			"dependsOn": [],
+			"location": "eastus2"
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/ExternalAggPollutants')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "-- Create external data source\n--CREATE EXTERNAL DATA SOURCE MyDataSource\n--WITH (\n--    LOCATION = 'https://tigeryihw1storage.dfs.core.windows.net/data'\n--);\n--GO\n\n-- Create external file format\n--CREATE EXTERNAL FILE FORMAT ParquetFileFormat\n--WITH (\n--FORMAT_TYPE = PARQUET\n--);\n--GO\n\n-- Create external table ExternalAggPollutants\nCREATE EXTERNAL TABLE ExternalAggPollutants (\n    date DATE,\n    avg_co FLOAT,\n    avg_no2 FLOAT,\n    avg_o3 FLOAT,\n    avg_so2 FLOAT,\n    avg_pm2_5 FLOAT,\n    avg_pm10 FLOAT\n)\nWITH (\n    LOCATION = 'gold/agg_pollutants/parquet/pollutant_agg.parquet',\n    DATA_SOURCE = MyDataSource,\n    FILE_FORMAT = ParquetFileFormat\n);\nGO",
 					"metadata": {
 						"language": "sql"
 					},
