@@ -2,7 +2,7 @@
 	"name": "DimWeatherCondition",
 	"properties": {
 		"content": {
-			"query": "-- Create and load DimWeatherCondition table\n-- A dimension table for weather condition details.\n-- Stores information about different weather conditions, \n--including main weather categories and descriptions, \n--along with a combined weather condition value.\n\nCREATE TABLE DimWeatherCondition (\n    weather_id_value VARCHAR(100),\n    weather_icon_value VARCHAR(10),\n    weather_main_value VARCHAR(100),\n    weather_description_value VARCHAR(100),\n    weather_combined_value VARCHAR(110)\n);\nGO\n\n",
+			"query": "-- Create and load DimWeatherCondition table\n-- A dimension table for weather condition details.\n-- Stores information about different weather conditions, \n--including main weather categories and descriptions, \n--along with a combined weather condition value.\n\nCREATE TABLE DimWeatherCondition (\n    weather_id_value VARCHAR(100),\n    weather_icon_value VARCHAR(10),\n    weather_main_value VARCHAR(100),\n    weather_description_value VARCHAR(100),\n    weather_combined_value VARCHAR(110)\n);\nGO\n\nINSERT INTO DimWeatherCondition\nSELECT DISTINCT\n    weather_id_value,\n    weather_icon_value,\n    weather_main_value,\n    weather_description_value,\n    CONCAT(weather_id_value, '_', weather_icon_value) AS weather_combined_value\nFROM\n    ExternalWeather;\nGO",
 			"metadata": {
 				"language": "sql"
 			},
