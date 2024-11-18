@@ -2,7 +2,7 @@
 	"name": "ExternalAggWeatherConditions",
 	"properties": {
 		"content": {
-			"query": "-- Create external data source\n--CREATE EXTERNAL DATA SOURCE MyDataSource\n--WITH (\n--    LOCATION = 'https://tigeryihw1storage.dfs.core.windows.net/data'\n--);\n--GO\n\n-- Create external file format\n--CREATE EXTERNAL FILE FORMAT ParquetFileFormat\n--WITH (\n--FORMAT_TYPE = PARQUET\n--);\n--GO\n\n\n-- Create external table ExternalAggWeatherConditions\nCREATE EXTERNAL TABLE ExternalAggWeatherConditions (\n    date DATE,\n    weather_main_value VARCHAR(100),\ncount INT\n)\nWITH (\n    LOCATION = --location of your external agg weather co\n    DATA_SOURCE = ?,\n    FILE_FORMAT = ?\n);\nGO",
+			"query": "-- Create external data source\n--CREATE EXTERNAL DATA SOURCE MyDataSource\n--WITH (\n--    LOCATION = 'https://tigeryihw1storage.dfs.core.windows.net/data'\n--);\n--GO\n\n-- Create external file format\n--CREATE EXTERNAL FILE FORMAT ParquetFileFormat\n--WITH (\n--FORMAT_TYPE = PARQUET\n--);\n--GO\n\n\n-- Create external table ExternalAggWeatherConditions\nCREATE EXTERNAL TABLE ExternalAggWeatherConditions (\n    date DATE,\n    weather_main_value VARCHAR(100),\ncount INT\n)\nWITH (\n    LOCATION = 'gold/agg_weather_conditions/parquet/weather_conditions.parquet',\n    DATA_SOURCE = MyDataSource,\n    FILE_FORMAT = ParquetFileFormat\n);\nGO",
 			"metadata": {
 				"language": "sql"
 			},
