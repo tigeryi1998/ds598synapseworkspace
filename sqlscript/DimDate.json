@@ -2,7 +2,7 @@
 	"name": "DimDate",
 	"properties": {
 		"content": {
-			"query": "",
+			"query": "-- Create and load DimDate table\n-- A dimension table focused on date attributes.\n-- Provides date details like year, month, day, quarter,\n-- and week, along with names for days and months, and a weekend indicator.\n\n",
 			"metadata": {
 				"language": "sql"
 			},
