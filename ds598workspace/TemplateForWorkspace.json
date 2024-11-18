@@ -350,6 +350,26 @@
 				"type": "SqlQuery"
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/ExternalAggWeather')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "-- Create external data source\n--CREATE EXTERNAL DATA SOURCE MyDataSource\n--WITH (\n--    LOCATION = 'https://tigeryihw1storage.dfs.core.windows.net/data'\n--);\n--GO\n\n-- Create external file format\n--CREATE EXTERNAL FILE FORMAT ParquetFileFormat\n--WITH (\n--FORMAT_TYPE = PARQUET\n--);\n--GO\n\n-- Create external table ExternalAggWeather\nCREATE EXTERNAL TABLE ExternalAggWeather (\n    date DATE,\n    avg_temp_F FLOAT,\n    avg_humidity FLOAT,\n    avg_wind_speed FLOAT,\n    max_temp_F FLOAT,\n    min_temp_F FLOAT,\n    weather_records INT\n)\nWITH (\n    LOCATION = 'gold/agg_weather/parquet/weather_agg.parquet',\n    DATA_SOURCE = MyDataSource,\n    FILE_FORMAT = ParquetFileFormat\n);\nGO",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "ds598sqlpool",
+						"poolName": "ds598sqlpool"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
 		}
 	]
 }
