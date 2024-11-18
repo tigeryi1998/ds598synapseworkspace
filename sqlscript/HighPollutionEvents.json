@@ -2,7 +2,7 @@
 	"name": "HighPollutionEvents",
 	"properties": {
 		"content": {
-			"query": "",
+			"query": "-- Create and load HighPollutionEvents table\n-- A table tracking high pollution events.\n-- Contains the count of high pollution occurrences for each date.\n-- REFER TO THE SCHEMA IN DATABRICKS\n\n",
 			"metadata": {
 				"language": "sql"
 			},
