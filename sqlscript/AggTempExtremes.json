@@ -2,7 +2,7 @@
 	"name": "AggTempExtremes",
 	"properties": {
 		"content": {
-			"query": "-- Create and load AggTempExtremes table\n-- An aggregated table that records temperature extremes\n-- Stores maximum and minimum temperatures for each date.\n\nCREATE TABLE AggTempExtremes (\n    a\n);\nGO\n\n\nINSERT INTO AggTempExtremes (\n    ...\n)\nSELECT \n    ...\nFROM \n    ExternalAggTempExtremes;\nGO",
+			"query": "-- Create and load AggTempExtremes table\n-- An aggregated table that records temperature extremes\n-- Stores maximum and minimum temperatures for each date.\n\nCREATE TABLE AggTempExtremes (\n    date DATE,\n    max_temp_F FLOAT,\n    min_temp_F FLOAT\n);\nGO\n\n\nINSERT INTO AggTempExtremes (\n    date,\n    max_temp_F,\n    min_temp_F\n)\nSELECT \n    date,\n    max_temp_F,\n    min_temp_F\nFROM \n    ExternalAggTempExtremes;\nGO",
 			"metadata": {
 				"language": "sql"
 			},
