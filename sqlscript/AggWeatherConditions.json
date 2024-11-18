@@ -1,0 +1,17 @@
+{
+	"name": "AggWeatherConditions",
+	"properties": {
+		"content": {
+			"query": "-- Create and load AggWeatherConditions table\n-- An aggregated table that counts occurrences of weather c\n-- Provides the number of instances of each weather conditi\n\nCREATE TABLE AggWeatherConditions (\n    date DATE,\n    weather_main_value NVARCHAR(100),\n    count INT\n);\nGO\n\nINSERT INTO AggWeatherConditions (\n    date,\n    weather_main_value,\n    count\n)\nSELECT \n    date,\n    weather_main_value,\n    count\nFROM \n    ExternalAggWeatherConditions;\nGO",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "ds598sqlpool",
+				"poolName": "ds598sqlpool"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
