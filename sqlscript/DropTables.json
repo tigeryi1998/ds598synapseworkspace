@@ -2,7 +2,7 @@
 	"name": "DropTables",
 	"properties": {
 		"content": {
-			"query": "-- Drop external tables\n-- DROP EXTERNAL TABLE ExternalAggAQI;\n-- DROP EXTERNAL TABLE ExternalAggPollutants;\n-- DROP EXTERNAL TABLE ExternalAggTempExtremes;\n-- DROP EXTERNAL TABLE ExternalAggWeather;\n-- DROP EXTERNAL TABLE ExternalAggWeatherConditions;\n-- DROP EXTERNAL TABLE ExternalAirPollution;\n-- DROP EXTERNAL TABLE ExternalHighPollutionEvents;\n-- DROP EXTERNAL TABLE ExternalWeather;\n-- GO\n\n-- Drop regular tables\n-- DROP TABLE AggAQI;\n-- DROP TABLE AggPollutants;\n-- DROP TABLE AggTempExtremes;\n-- DROP TABLE AggWeather;\n-- DROP TABLE AggWeatherConditions;\n-- DROP TABLE DimDateTime;\n-- DROP TABLE DimDate;\n-- DROP TABLE DimLocation;\n-- DROP TABLE DimAirPollution;\n-- DROP TABLE DimWeatherCondition;\nDROP TABLE FactWeather;\n-- DROP TABLE HighPollutionEvents;\n-- GO",
+			"query": "-- Drop external tables\n-- DROP EXTERNAL TABLE ExternalAggAQI;\n-- DROP EXTERNAL TABLE ExternalAggPollutants;\n-- DROP EXTERNAL TABLE ExternalAggTempExtremes;\n-- DROP EXTERNAL TABLE ExternalAggWeather;\n-- DROP EXTERNAL TABLE ExternalAggWeatherConditions;\n-- DROP EXTERNAL TABLE ExternalAirPollution;\n-- DROP EXTERNAL TABLE ExternalHighPollutionEvents;\n-- DROP EXTERNAL TABLE ExternalWeather;\n-- GO\n\n-- Drop regular tables\n-- DROP TABLE AggAQI;\n-- DROP TABLE AggPollutants;\n-- DROP TABLE AggTempExtremes;\n-- DROP TABLE AggWeather;\n-- DROP TABLE AggWeatherConditions;\n-- DROP TABLE DimDateTime;\n-- DROP TABLE DimDate;\n-- DROP TABLE DimLocation;\n-- DROP TABLE DimAirPollution;\n-- DROP TABLE DimWeatherCondition;\n-- DROP TABLE FactWeather;\n-- DROP TABLE HighPollutionEvents;\n-- GO",
 			"metadata": {
 				"language": "sql"
 			},
